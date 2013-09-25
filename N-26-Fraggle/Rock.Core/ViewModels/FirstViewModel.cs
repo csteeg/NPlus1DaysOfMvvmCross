@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Input;
 using Cirrious.CrossCore;
 using Cirrious.CrossCore.Converters;
@@ -34,10 +35,15 @@ namespace Rock.Core.ViewModels
         public HomeViewModel()
         {
 
-            var trace = Mvx.Resolve<IMvxTrace>();
             var messenger = Mvx.Resolve<IMvxMessenger>();
-            messenger.Subscribe<JustAMessage>(message => trace.Trace(MvxTraceLevel.Warning, "HomeViewModel", "HomeViewModel {1} received: {0}", message.Message, Id));
+            messenger.Subscribe<JustAMessage>(OnMessage);
             messenger.Publish(new JustAMessage(this) { Message = "Created HomeViewModel" + Id });
+        }
+
+        private void OnMessage(JustAMessage message)
+        {
+            var trace = Mvx.Resolve<IMvxTrace>();
+            trace.Trace(MvxTraceLevel.Warning, "HomeViewModel", "HomeViewModel {1} received: {0}", message.Message, Id);
         }
 
         public ICommand First { get { return new MvxCommand(() => ShowViewModel<FirstViewModel>()); } }
@@ -50,11 +56,17 @@ namespace Rock.Core.ViewModels
         public int Id = IdCounter++;
         public FirstViewModel()
         {
-            var trace = Mvx.Resolve<IMvxTrace>();
             var messenger = Mvx.Resolve<IMvxMessenger>();
-            messenger.Subscribe<JustAMessage>(message => trace.Trace(MvxTraceLevel.Warning, "FirstViewModel", "FirstViewModel {1} received: {0}", message.Message, Id));
+            messenger.Subscribe<JustAMessage>(OnMessage);
             messenger.Publish(new JustAMessage(this) { Message = "Created FirstViewModel" + Id });
         }
+
+        private void OnMessage(JustAMessage message)
+        {
+            var trace = Mvx.Resolve<IMvxTrace>();
+            trace.Trace(MvxTraceLevel.Warning, "FirstViewModel", "FirstViewModel {1} received: {0}", message.Message, Id);
+        }
+
         private SubViewModel _sub = new SubViewModel();
         public SubViewModel Sub
         {
@@ -62,7 +74,6 @@ namespace Rock.Core.ViewModels
             set
             {
                 _sub = value;
-                Mvx.Resolve<IMvxMessenger>().Publish(new JustAMessage(this) { Message = "Sub property changed on FirstViewModel" });
                 RaisePropertyChanged(() => Sub);
             }
         }
@@ -75,11 +86,17 @@ namespace Rock.Core.ViewModels
         public int Id = IdCounter++;
         public SecondViewModel()
         {
-            var trace = Mvx.Resolve<IMvxTrace>();
             var messenger = Mvx.Resolve<IMvxMessenger>();
-            messenger.Subscribe<JustAMessage>(message => trace.Trace(MvxTraceLevel.Warning, "SecondViewModel", "SecondViewModel {1} received: {0}", message.Message, Id));
+            messenger.Subscribe<JustAMessage>(OnMessage);
             messenger.Publish(new JustAMessage(this) { Message = "Created SecondViewModel" + Id });
         }
+
+        private void OnMessage(JustAMessage message)
+        {
+            var trace = Mvx.Resolve<IMvxTrace>();
+            trace.Trace(MvxTraceLevel.Warning, "SecondViewModel", "SecondViewModel {1} received: {0}", message.Message, Id);
+        }
+
         private SubViewModel _sub = new SubViewModel();
         public SubViewModel Sub
         {
@@ -87,7 +104,6 @@ namespace Rock.Core.ViewModels
             set
             {
                 _sub = value;
-                Mvx.Resolve<IMvxMessenger>().Publish(new JustAMessage(this) { Message = "Sub property changed on SecondViewModel" });
                 RaisePropertyChanged(() => Sub);
             }
         }
@@ -100,11 +116,17 @@ namespace Rock.Core.ViewModels
         public int Id = IdCounter++;
         public SubViewModel()
         {
-            var trace = Mvx.Resolve<IMvxTrace>();
             var messenger = Mvx.Resolve<IMvxMessenger>();
-            messenger.Subscribe<JustAMessage>(message => trace.Trace(MvxTraceLevel.Warning, "SubViewModel", "SubViewModel {1} received: {0}", message.Message, Id));
+            messenger.Subscribe<JustAMessage>(OnMessage);
             messenger.Publish(new JustAMessage(this) { Message = "Created SubViewModel" + Id });
         }
+
+        private void OnMessage(JustAMessage message)
+        {
+            var trace = Mvx.Resolve<IMvxTrace>();
+            trace.Trace(MvxTraceLevel.Warning, "SubViewModel", "SubViewModel {1} received: {0}", message.Message, Id);
+        }
+
         private string _hello = "Hello MvvmCross";
         public string Hello
         {
@@ -112,7 +134,6 @@ namespace Rock.Core.ViewModels
             set
             {
                 _hello = value;
-                Mvx.Resolve<IMvxMessenger>().Publish(new JustAMessage(this) { Message = "Hello property changed on SubViewModel" });
                 RaisePropertyChanged(() => Hello);
             }
         }
