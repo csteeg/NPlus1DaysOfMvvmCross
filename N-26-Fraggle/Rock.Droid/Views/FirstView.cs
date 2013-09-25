@@ -1,6 +1,8 @@
 using Android.App;
 using Android.OS;
+using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Droid.Fragging;
+using Cirrious.MvvmCross.Plugins.Messenger;
 using Rock.Core.ViewModels;
 
 namespace Rock.Droid.Views
@@ -18,6 +20,12 @@ namespace Rock.Droid.Views
 
             var dub = (DubFrag)SupportFragmentManager.FindFragmentById(Resource.Id.dub1);
             dub.ViewModel = ((FirstViewModel)ViewModel).Sub;
+        }
+
+        protected override void OnDestroy()
+        {
+            Mvx.Resolve<IMvxMessenger>().Publish(new JustAMessage(this) { Message = "Destroyed FirstView for viewmodel " + ((FirstViewModel)ViewModel).Id });
+            base.OnDestroy();
         }
     }
 }

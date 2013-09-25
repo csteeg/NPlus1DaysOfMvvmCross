@@ -2,8 +2,7 @@ using Cirrious.MvvmCross.ViewModels;
 
 namespace FirstDemo.Core.ViewModels
 {
-    public class FirstViewModel 
-		: MvxViewModel
+    public class FirstViewModel: MvxViewModel
     {
         private string _firstName;
         public string FirstName

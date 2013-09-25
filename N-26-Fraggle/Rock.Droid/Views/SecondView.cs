@@ -1,7 +1,9 @@
 using Android.App;
 using Android.OS;
 using Android.Widget;
+using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Droid.Fragging;
+using Cirrious.MvvmCross.Plugins.Messenger;
 using Rock.Core.ViewModels;
 
 namespace Rock.Droid.Views
@@ -53,5 +55,12 @@ namespace Rock.Droid.Views
                 trans4.Commit();
             };
         }
+
+        protected override void OnDestroy()
+        {
+            Mvx.Resolve<IMvxMessenger>().Publish(new JustAMessage(this) { Message = "Destroyed SecondView for viewmodel " + ((SecondViewModel)ViewModel).Id });
+            base.OnDestroy();
+        }
+
     }
 }
